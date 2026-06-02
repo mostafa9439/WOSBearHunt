@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whiteout Survival: Bear Hunt Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="container">
+    <h1>🐻 Bear Damage Optimizer</h1>
+    <p class="subtitle">Maximize your Rewards!</p>
+
+    <form id="calcForm" onsubmit="event.preventDefault(); calculateStats();">
+        <div class="grid">
+            
+            <!-- LEFT COLUMN -->
+            <div>
+                <div class="card form-group">
+                    <h2>🛡️ Rally Lead Heroes</h2>
+                    
+                    <!-- Infantry Hero Dropdown -->
+                    <div class="form-group">
+                        <label style="color:#f59e0b">Infantry Hero</label>
+                        <select id="infHeroSelect">
+                            <option value="hector">Hector</option>
+                        </select>
+                    </div>
+                    <div class="inline-grid form-group">
+                        <div>
+                            <label>Rampant <span class="helper-text">Lvl 1-5</span></label>
+                            <input type="number" id="heroInf1" value="5" min="1" max="5">
+                        </div>
+                        <div>
+                            <label>Blitz <span class="helper-text">Lvl 1-5</span></label>
+                            <input type="number" id="heroInf2" value="5" min="1" max="5">
+                        </div>
+                        <div>
+                            <label>Widget <span class="helper-text">Tier</span></label>
+                            <input type="number" id="infWidget" value="2" min="0" max="10">
+                        </div>
+                    </div>
+
+                    <!-- Lancer Hero Dropdown -->
+                    <div class="form-group">
+                        <label style="color:#f59e0b">Lancer Hero</label>
+                        <select id="lanHeroSelect">
+                            <option value="mia">Mia</option>
+                        </select>
+                    </div>
+                    <div class="inline-grid form-group">
+                        <div>
+                            <label>Bad Luck <span class="helper-text">Lvl 1-5</span></label>
+                            <input type="number" id="heroLan1" value="5" min="1" max="5">
+                        </div>
+                        <div>
+                            <label>Lucky Chrm <span class="helper-text">Lvl 1-5</span></label>
+                            <input type="number" id="heroLan2" value="5" min="1" max="5">
+                        </div>
+                        <div>
+                            <label>Widget <span class="helper-text">Tier</span></label>
+                            <input type="number" id="lanWidget" value="7" min="0" max="10">
+                        </div>
+                    </div>
+
+                    <!-- Marksman Hero Dropdown -->
+                    <div class="form-group">
+                        <label style="color:#f59e0b">Marksman Hero</label>
+                        <select id="mmHeroSelect">
+                            <option value="gwen">Gwen</option>
+                        </select>
+                    </div>
+                    <div class="inline-grid form-group">
+                        <div>
+                            <label>Eagle Vis <span class="helper-text">Lvl 1-5</span></label>
+                            <input type="number" id="heroMM1" value="5" min="1" max="5">
+                        </div>
+                        <div>
+                            <label>Air Dom <span class="helper-text">Lvl 1-5</span></label>
+                            <input type="number" id="heroMM2" value="5" min="1" max="5">
+                        </div>
+                         <div>
+                            <label>Blastmstr <span class="helper-text">Lvl 1-5</span></label>
+                            <input type="number" id="heroMM3" value="5" min="1" max="5">
+                        </div>
+                        <div>
+                            <label>Widget <span class="helper-text">Tier</span></label>
+                            <input type="number" id="MMWidget" value="7" min="0" max="10">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pet Bonuses -->
+                <div class="card form-group">
+                    <h2>🐶 Pet Bonuses</h2>
+                    <div class="inline-grid">
+                        <div>
+                            <label>Troop Attack (%)</label>
+                            <input type="number" id="petAtt" value="6">
+                        </div>
+                        <div>
+                            <label>Troop Lethality (%)</label>
+                            <input type="number" id="petLeth" value="4">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- City Bonuses -->
+                <div class="card form-group">
+                    <h2>🏢 City Bonuses</h2>
+                    <div class="inline-grid">
+                        <div>
+                            <label>Attack (%)</label>
+                            <input type="number" id="cityAtt" value="0">
+                        </div>
+                        <div>
+                            <label>Lethality (%)</label>
+                            <input type="number" id="cityLeth" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Capacity Selection -->
+                <div class="card form-group">
+                    <h2>🪖 Deployment Capacity </h2>
+                    <div>
+                        <label>Max Troop Deployment Capacity</label>
+                        <input type="number" id="SMax" value="202610">
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div>
+                <!-- Account Base Multipliers -->
+                <div class="card form-group">
+                    <h2>📊 Base Bonus Stats </h2>
+                    <div class="inline-grid form-group">
+                        <div>
+                            <label style="color:#f59e0b">Troop Att (%)</label>
+                            <input type="number" id="bonusTroopAtt" value="289.56">
+                        </div>
+                        <div>
+                            <label style="color:#f59e0b">Troop Leth (%)</label>
+                            <input type="number" id="bonusTroopLeth" value="90.2">
+                        </div>
+                    </div>
+                    <div class="inline-grid form-group">
+                        <div>
+                            <label>Infantry Att (%)</label>
+                            <input type="number" id="bonusInfAtt" value="641.84">
+                        </div>
+                        <div>
+                            <label>Infantry Leth (%)</label>
+                            <input type="number" id="bonusInfLeth" value="439.06">
+                        </div>
+                    </div>
+                    <div class="inline-grid form-group">
+                        <div>
+                            <label>Lancer Att (%)</label>
+                            <input type="number" id="bonusLanAtt" value="555.54">
+                        </div>
+                        <div>
+                            <label>Lancer Leth (%)</label>
+                            <input type="number" id="bonusLanLeth" value="565.2">
+                        </div>
+                    </div>
+                    <div class="inline-grid form-group">
+                        <div>
+                            <label>Marksman Att (%)</label>
+                            <input type="number" id="bonusMmAtt" value="812.78">
+                        </div>
+                        <div>
+                            <label>Marksman Leth (%)</label>
+                            <input type="number" id="bonusMmLeth" value="726.4">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Base Raw Stats Module -->
+                <div class="card">
+                    <h2>⚔️ Base Troop Stats</h2>
+                    <div class="table-grid" style="margin-bottom: 5px;">
+                        <div></div>
+                        <span style="font-size:11px; color:#9ca3af; font-weight:bold;">ATTACK</span>
+                        <span style="font-size:11px; color:#9ca3af; font-weight:bold;">LETHALITY</span>
+                    </div>
+                    <div class="table-grid form-group">
+                        <label>Infantry</label>
+                        <input type="number" id="baseInfAtt" value="14">
+                        <input type="number" id="baseInfLeth" value="13">
+                    </div>
+                    <div class="table-grid form-group">
+                        <label>Lancer</label>
+                        <input type="number" id="baseLanAtt" value="20">
+                        <input type="number" id="baseLanLeth" value="19">
+                    </div>
+                    <div class="table-grid">
+                        <label>Marksman</label>
+                        <input type="number" id="baseMmAtt" value="21">
+                        <input type="number" id="baseMmLeth" value="20">
+                    </div>
+                </div>
+                
+                <button type="submit">Optimal</button> 
+            </div>
+
+        </div>
+    </form>
+
+    <!-- RESULTS ENGINE -->
+    <div id="resultsSection" class="results-box hidden">
+        <h2>📊 Results </h2>
+        <table class="stat-table">
+            <thead>
+                <tr>
+                    <th>Troop Type</th>
+                    <th style="text-align:center">Battle Report Numbers</th>
+                    <th style="text-align:center">Optimal Troop Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>🛡️ Infantry Base Mods</td>
+                    <td id="resInfMod" style="text-align:center; color:#9ca3af;">-</td>
+                    <td id="opInf" style="text-align:center; font-weight:bold; color:#10b981;">-</td>
+                </tr>
+                <tr>
+                    <td>🐎 Lancer</td>
+                    <td id="resLanMod" style="text-align:center; color:#9ca3af;">-</td>
+                    <td id="opLan" style="text-align:center; font-weight:bold; color:#10b981;">-</td>
+                </tr>
+                <tr>
+                    <td>🏹 Marksman</td>
+                    <td id="resMmMod" style="text-align:center; color:#9ca3af;">-</td>
+                    <td id="opMm" style="text-align:center; font-weight:bold; color:#10b981;">-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- <div class="rec-card">
+            <h3 style="color:#fbbf24; margin:0;">🎯 Optimized Numbers</h3>
+            <p id="formationRecommendation" class="rec-text">-</p>
+            <!-- <p style="font-size:11px; color:#9ca3af; margin:0;">Calculated as (True Attack * True Lethality) per individual unit class.</p>
+        </div> -->
+    </div>
+</div>
+    <script src="app.js"></script>
+</body>
+</html>
