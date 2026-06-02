@@ -77,8 +77,8 @@ function calculateStats() {
     // mAtt = mAtt/100;
     // mLeth = mLeth/100;
 
-    let totalGlobalAtt = tAtt + mAtt + tAtt*mAtt/100;
-    let totalGlobalLeth = tLeth + mLeth + tLeth*mLeth/100;
+    // let totalGlobalAtt = tAtt + mAtt + tAtt*mAtt/100;
+    // let totalGlobalLeth = tLeth + mLeth + tLeth*mLeth/100;
 
     // if (selectedLanHero === 'mia') {
     //     totalGlobalAtt += badLuckAttTable[lan1];
@@ -125,13 +125,15 @@ function calculateStats() {
     // const powerLan = trueLanAtt * trueLanLeth;
     // const powerMm = trueMmAtt * trueMmLeth;
 
-    const A = trueInfAtt*trueInfLeth*rawInfAtt*rawInfLeth/10000; 
-    const B = trueLanAtt*trueLanLeth*rawLanAtt*rawLanLeth/10000; 
-    const C = trueMmAtt*trueMmLeth*rawMmAtt*rawMmLeth/10000; 
+    const A = trueInfAtt*trueInfLeth*rawInfAtt*rawInfLeth; 
+    const B = trueLanAtt*trueLanLeth*rawLanAtt*rawLanLeth; 
+    const C = trueMmAtt*trueMmLeth*rawMmAtt*rawMmLeth; 
 
-    const opInf = (SMax*A^2)/(A^2 + B^2 +C^2);
-    const opLan = (SMax*B^2)/(A^2 + B^2 +C^2);
-    const opMm  = (SMax*C^2)/(A^2 + B^2 +C^2);
+    const opInf = SMax*(A**2)/(A**2 + B**2 + C**2);
+    const opLan = SMax*(B**2)/(A**2 + B**2 + C**2);
+    const opMm  = SMax*(C**2)/(A**2 + B**2 + C**2);
+    // console.log("SMax, A, B, C", SMax, A, B, C)
+    // console.log("opInf: ", opInf);
 
     const perInf = opInf/SMax*100;
     const perLan = opLan/SMax*100;
@@ -156,3 +158,69 @@ function calculateStats() {
     // Make results panel visible
     document.getElementById('resultsSection').classList.remove('hidden');
 }
+
+// A reusable function to extract the widget value based on JSON rules
+// function getWidgetBonus(heroData, inputLevel) {
+//     if (!heroData || heroData.widget_type === "none") return { type: "none", scope: "none", value: 0 };
+    
+//     // Safety cap the widget input index between 0 and 10
+//     const safeIndex = Math.min(10, Math.max(0, inputLevel));
+//     const bonusValue = heroData.widget_table[safeIndex] || 0;
+    
+//     return {
+//         type: heroData.widget_type,     // "attack" or "lethality"
+//         scope: heroData.widget_scope,   // "global" or "class"
+//         value: bonusValue
+//     };
+// }
+
+// Global variable to hold our hero data once loaded
+// let gameData = {};
+
+// // 1. AUTOMATICALLY RUN ON PAGE LOAD
+// window.addEventListener('DOMContentLoaded', () => {
+//     // Fetch the text data file
+//     fetch('heroes.json')
+//         .then(response => response.json())
+//         .then(data => {
+//             gameData = data; // Save data globally
+//             populateDropdowns(); // Build the HTML selections
+//         })
+//         .catch(error => console.error("Error loading hero JSON data:", error));
+// });
+
+// // 2. DYNAMICALLY BUILD THE DROPDOWNS BASED ON THE JSON FILE
+// function populateDropdowns() {
+//     const infSelect = document.getElementById('infHeroSelect');
+//     const lanSelect = document.getElementById('lanHeroSelect');
+//     const mmSelect = document.getElementById('mmHeroSelect');
+
+//     // Clear out any old hardcoded HTML choices
+//     infSelect.innerHTML = '';
+//     lanSelect.innerHTML = '';
+//     mmSelect.innerHTML = '';
+
+//     // Loop through JSON infantry options and build dropdown elements
+//     Object.keys(gameData.infantry).forEach(key => {
+//         let opt = document.createElement('option');
+//         opt.value = key;
+//         opt.innerText = gameData.infantry[key].name;
+//         infSelect.appendChild(opt);
+//     });
+
+//     // Loop through JSON lancer options
+//     Object.keys(gameData.lancer).forEach(key => {
+//         let opt = document.createElement('option');
+//         opt.value = key;
+//         opt.innerText = gameData.lancer[key].name;
+//         lanSelect.appendChild(opt);
+//     });
+
+//     // Loop through JSON marksman options
+//     Object.keys(gameData.marksman).forEach(key => {
+//         let opt = document.createElement('option');
+//         opt.value = key;
+//         opt.innerText = gameData.marksman[key].name;
+//         mmSelect.appendChild(opt);
+//     });
+// }

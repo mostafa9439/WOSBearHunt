@@ -1,0 +1,155 @@
+{
+  "infantry": {
+    "natalia": {
+      "name": "Natalia (Gen 1)",
+      "skills": [],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "jeronimo": {
+      "name": "Jeronimo (Gen 1)",
+      "skills": [
+        {
+          "name": "Divine Punishment",
+          "effects": [{ "stat": "attack", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0] }]
+        }
+      ],
+      "widget_type": "attack",
+      "widget_scope": "global",
+      "widget_table": [0, 0, 5.0, 5.0, 7.5, 7.5, 10.0, 10.0, 12.5, 12.5, 15.0]
+    },
+    "flint": {
+      "name": "Flint (Gen 2)",
+      "skills": [],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "logan": {
+      "name": "Logan (Gen 3)",
+      "skills": [],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "ahmose": {
+      "name": "Ahmose (Gen 4)",
+      "skills": [],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "hector": {
+      "name": "Hector (Gen 5)",
+      "skills": [
+        {
+          "name": "Rampant",
+          "effects": [
+            { "stat": "lethality", "scope": "infantry", "table": [0, 4.6, 9.2, 13.8, 18.4, 23.0] },
+            { "stat": "lethality", "scope": "marksman", "table": [0, 9.2, 18.4, 27.6, 36.8, 46.0] }
+          ]
+        },
+        {
+          "name": "Blitz",
+          "effects": [{ "stat": "lethality", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0] }]
+        }
+      ],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    }
+  },
+  "lancer": {
+    "molly": {
+      "name": "Molly (Gen 1)",
+      "skills": [],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "philly": {
+      "name": "Philly (Gen 2)",
+      "skills": [],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "mia": {
+      "name": "Mia (Gen 3)",
+      "skills": [
+        {
+          "name": "Bad Luck Streak",
+          "effects": [{ "stat": "attack", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0] }]
+        },
+        {
+          "name": "Lucky Charm",
+          "effects": [{ "stat": "lethality", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0] }]
+        }
+      ],
+      "widget_type": "attack",
+      "widget_scope": "global",
+      "widget_table": [0, 0, 5.0, 5.0, 7.5, 7.5, 10.0, 10.0, 12.5, 12.5, 15.0]
+    },
+    "reina": {
+      "name": "Reina (Gen 4)",
+      "skills": [],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "norah": {
+      "name": "Norah (Gen 5)",
+      "skills": [],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    }
+  },
+  "marksman": {
+    "alonso": {
+      "name": "Alonso (Gen 2)",
+      "skills": [],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "greg": {
+      "name": "Greg (Gen 3)",
+      "skills": [],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "lynn": {
+      "name": "Lynn (Gen 4)",
+      "skills": [],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "gwen": {
+      "name": "Gwen (Gen 5)",
+      "skills": [
+        {
+          "name": "Eagle Vision",
+          "effects": [{ "stat": "lethality", "scope": "infantry", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0] }]
+        },
+        {
+          "name": "Air Dominance",
+          "effects": [
+            { "stat": "attack", "scope": "global", "table": [0, 4.0, 8.0, 12.0, 16.0, 20.0] },
+            { "stat": "lethality", "scope": "global", "table": [0, 0.6, 1.2, 1.8, 2.4, 3.0] }
+          ]
+        },
+        {
+          "name": "Blastmaster",
+          "effects": [{ "stat": "lethality", "scope": "global", "table": [0, 2.0, 4.0, 6.0, 8.0, 10.0] }]
+        }
+      ],
+      "widget_type": "lethality",
+      "widget_scope": "global",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 10.0, 10.0, 10.0, 10.0]
+    }
+  }
+}
