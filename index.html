@@ -15,83 +15,32 @@
     <form id="calcForm" onsubmit="event.preventDefault(); calculateStats();">
         <div class="grid">
             
-            <!-- LEFT COLUMN -->
             <div>
                 <div class="card form-group">
                     <h2>🛡️ Rally Lead Heroes</h2>
                     
-                    <!-- Infantry Hero Dropdown -->
-                    <div class="form-group">
-                        <label style="color:#f59e0b">Infantry Hero</label>
-                        <select id="infHeroSelect">
-                            <option value="hector">Hector</option>
-                        </select>
-                    </div>
-                    <div class="inline-grid form-group">
-                        <div>
-                            <label>Rampant <span class="helper-text">Lvl 1-5</span></label>
-                            <input type="number" id="heroInf1" value="5" min="1" max="5">
-                        </div>
-                        <div>
-                            <label>Blitz <span class="helper-text">Lvl 1-5</span></label>
-                            <input type="number" id="heroInf2" value="5" min="1" max="5">
-                        </div>
-                        <div>
-                            <label>Widget <span class="helper-text">Tier</span></label>
-                            <input type="number" id="infWidget" value="2" min="0" max="10">
-                        </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="color:#f59e0b; font-size:13px;">Infantry Hero</label>
+                        <select id="infHeroSelect" class="form-group"></select>
+                        <div id="infSkillsContainer" class="inline-grid"></div>
+                        <div id="infWidgetContainer" style="margin-top: 10px;"></div>
                     </div>
 
-                    <!-- Lancer Hero Dropdown -->
-                    <div class="form-group">
-                        <label style="color:#f59e0b">Lancer Hero</label>
-                        <select id="lanHeroSelect">
-                            <option value="mia">Mia</option>
-                        </select>
-                    </div>
-                    <div class="inline-grid form-group">
-                        <div>
-                            <label>Bad Luck <span class="helper-text">Lvl 1-5</span></label>
-                            <input type="number" id="heroLan1" value="5" min="1" max="5">
-                        </div>
-                        <div>
-                            <label>Lucky Chrm <span class="helper-text">Lvl 1-5</span></label>
-                            <input type="number" id="heroLan2" value="5" min="1" max="5">
-                        </div>
-                        <div>
-                            <label>Widget <span class="helper-text">Tier</span></label>
-                            <input type="number" id="lanWidget" value="7" min="0" max="10">
-                        </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="color:#f59e0b; font-size:13px;">Lancer Hero</label>
+                        <select id="lanHeroSelect" class="form-group"></select>
+                        <div id="lanSkillsContainer" class="inline-grid"></div>
+                        <div id="lanWidgetContainer" style="margin-top: 10px;"></div>
                     </div>
 
-                    <!-- Marksman Hero Dropdown -->
-                    <div class="form-group">
-                        <label style="color:#f59e0b">Marksman Hero</label>
-                        <select id="mmHeroSelect">
-                            <option value="gwen">Gwen</option>
-                        </select>
-                    </div>
-                    <div class="inline-grid form-group">
-                        <div>
-                            <label>Eagle Vis <span class="helper-text">Lvl 1-5</span></label>
-                            <input type="number" id="heroMM1" value="5" min="1" max="5">
-                        </div>
-                        <div>
-                            <label>Air Dom <span class="helper-text">Lvl 1-5</span></label>
-                            <input type="number" id="heroMM2" value="5" min="1" max="5">
-                        </div>
-                         <div>
-                            <label>Blastmstr <span class="helper-text">Lvl 1-5</span></label>
-                            <input type="number" id="heroMM3" value="5" min="1" max="5">
-                        </div>
-                        <div>
-                            <label>Widget <span class="helper-text">Tier</span></label>
-                            <input type="number" id="MMWidget" value="7" min="0" max="10">
-                        </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="color:#f59e0b; font-size:13px;">Marksman Hero</label>
+                        <select id="mmHeroSelect" class="form-group"></select>
+                        <div id="mmSkillsContainer" class="inline-grid"></div>
+                        <div id="mmWidgetContainer" style="margin-top: 10px;"></div>
                     </div>
                 </div>
 
-                <!-- Pet Bonuses -->
                 <div class="card form-group">
                     <h2>🐶 Pet Bonuses</h2>
                     <div class="inline-grid">
@@ -106,7 +55,6 @@
                     </div>
                 </div>
 
-                <!-- City Bonuses -->
                 <div class="card form-group">
                     <h2>🏢 City Bonuses</h2>
                     <div class="inline-grid">
@@ -121,7 +69,6 @@
                     </div>
                 </div>
 
-                <!-- Capacity Selection -->
                 <div class="card form-group">
                     <h2>🪖 Deployment Capacity </h2>
                     <div>
@@ -131,9 +78,7 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN -->
             <div>
-                <!-- Account Base Multipliers -->
                 <div class="card form-group">
                     <h2>📊 Base Bonus Stats </h2>
                     <div class="inline-grid form-group">
@@ -178,7 +123,6 @@
                     </div>
                 </div>
 
-                <!-- Base Raw Stats Module -->
                 <div class="card">
                     <h2>⚔️ Base Troop Stats</h2>
                     <div class="table-grid" style="margin-bottom: 5px;">
@@ -209,7 +153,6 @@
         </div>
     </form>
 
-    <!-- RESULTS ENGINE -->
     <div id="resultsSection" class="results-box hidden">
         <h2>📊 Results </h2>
         <table class="stat-table">
@@ -238,12 +181,6 @@
                 </tr>
             </tbody>
         </table>
-
-        <!-- <div class="rec-card">
-            <h3 style="color:#fbbf24; margin:0;">🎯 Optimized Numbers</h3>
-            <p id="formationRecommendation" class="rec-text">-</p>
-            <!-- <p style="font-size:11px; color:#9ca3af; margin:0;">Calculated as (True Attack * True Lethality) per individual unit class.</p>
-        </div> -->
     </div>
 </div>
     <script src="app.js"></script>

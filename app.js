@@ -1,16 +1,129 @@
-// Hero skill stat tables (Levels 0 through 5 mapping)
-const rampLethTable = [0, 4.6, 9.2, 13.8, 18.4, 23.0];     // Hector S1
-const blitzLethTable = [0, 5.0, 10.0, 15.0, 20.0, 25.0];   // Hector S2
-const badLuckAttTable = [0, 5.0, 10.0, 15.0, 20.0, 25.0];  // Mia S1
-const luckyLethTable = [0, 5.0, 10.0, 15.0, 20.0, 25.0];   // Mia S2
-const eagleLethTable = [0, 5.0, 10.0, 15.0, 20.0, 25.0];   // Gwen S1
-const airDomAttTable = [0, 4.0, 8.0, 12.0, 16.0, 20.0];    // Gwen S2 (Att)
-const airDomLethTable = [0, 0.6, 1.2, 1.8, 2.4, 3.0];     // Gwen S2 (Leth)
-const blastLethTable = [0, 2.0, 4.0, 6.0, 8.0, 10.0];      // Gwen S3
+// Global variables to hold active calculations and loaded JSON profiles
+let gameData = {};
+let activeSkillInputs = {
+    infantry: [],
+    lancer: [],
+    marksman: []
+};
 
-// widget progression curve
-const miaWidgetAttTable = [0, 0, 5.0, 5.0, 7.5, 7.5, 10.0, 10.0, 12.5, 12.5, 15.0];
-const gwenWidgetLethTable = [0, 0, 5.0, 5.0, 7.5, 7.5, 10.0, 10.0, 12.5, 12.5, 15.0];
+// ==========================================================================
+// 1. INITIALIZATION & DYNAMIC SCREEN BUILDERS
+// ==========================================================================
+
+// Automatically triggers the data pipeline when your webpage loads
+window.addEventListener('DOMContentLoaded', () => {
+    fetch('heroes.json')
+        .then(response => response.json())
+        .then(data => {
+            gameData = data;
+            populateDropdowns();
+            
+            document.getElementById('infHeroSelect').addEventListener('change', () => renderHeroSkills('infantry', 'infHeroSelect', 'infSkillsContainer', 'infWidgetContainer', 'infWidget'));
+            document.getElementById('lanHeroSelect').addEventListener('change', () => renderHeroSkills('lancer', 'lanHeroSelect', 'lanSkillsContainer', 'lanWidgetContainer', 'lanWidget'));
+            document.getElementById('mmHeroSelect').addEventListener('change', () => renderHeroSkills('marksman', 'mmHeroSelect', 'mmSkillsContainer', 'mmWidgetContainer', 'MMWidget'));
+            
+            // Initial render
+            renderHeroSkills('infantry', 'infHeroSelect', 'infSkillsContainer', 'infWidgetContainer', 'infWidget');
+            renderHeroSkills('lancer', 'lanHeroSelect', 'lanSkillsContainer', 'lanWidgetContainer', 'lanWidget');
+            renderHeroSkills('marksman', 'mmHeroSelect', 'mmSkillsContainer', 'mmWidgetContainer', 'MMWidget');
+        })
+        .catch(error => console.error("Error connecting to data schema structure:", error));
+});
+
+// Scans JSON keys and generates dynamic HTML choices inside dropdown layers
+function populateDropdowns() {
+    const categories = ['infantry', 'lancer', 'marksman'];
+    const selectors = ['infHeroSelect', 'lanHeroSelect', 'mmHeroSelect'];
+    
+    categories.forEach((category, index) => {
+        const dropdown = document.getElementById(selectors[index]);
+        if (!dropdown) return;
+        dropdown.innerHTML = ''; // Wipe out baseline structural defaults
+        
+        Object.keys(gameData[category]).forEach(key => {
+            let elementOption = document.createElement('option');
+            elementOption.value = key;
+            elementOption.innerText = gameData[category][key].name;
+            dropdown.appendChild(elementOption);
+        });
+    });
+}
+
+// Scans only the relevant Bear Hunt skills for the chosen hero and draws inputs on the fly
+function renderHeroSkills(category, selectId, containerId, widgetContainerId, widgetInputId) {
+    const selectedHeroKey = document.getElementById(selectId).value;
+    const container = document.getElementById(containerId);
+    const widgetContainer = document.getElementById(widgetContainerId);
+    
+    // Clear out baseline input markup
+    container.innerHTML = '';
+    widgetContainer.innerHTML = '';
+    activeSkillInputs[category] = []; 
+
+    const heroData = gameData[category][selectedHeroKey];
+    if (!heroData) return;
+
+    // 1. Render Skills
+    if (heroData.skills) {
+        heroData.skills.forEach((skill, index) => {
+            const skillDiv = document.createElement('div');
+            skillDiv.className = 'form-group';
+
+            const label = document.createElement('label');
+            label.innerHTML = `${skill.name} <span class="helper-text">Lvl 1-5</span>`;
+            
+            const input = document.createElement('input');
+            input.type = 'number';
+            const uniqueId = `input-${category}-${index}`;
+            input.id = uniqueId;
+            input.value = 5; 
+            input.min = 1;
+            input.max = 5;
+
+            skillDiv.appendChild(label);
+            skillDiv.appendChild(input);
+            container.appendChild(skillDiv);
+
+            activeSkillInputs[category].push(uniqueId);
+        });
+    }
+
+    // 2. Render Widget (if applicable)
+    if (heroData.widget_type && heroData.widget_type !== "none") {
+        widgetContainer.innerHTML = `
+            <div class="form-group" style="border-top: 1px dashed #374151; padding-top: 10px;">
+                <label>Exclusive Widget <span class="helper-text">Lvl 0-10</span></label>
+                <input type="number" id="${widgetInputId}" value="0" min="0" max="10">
+            </div>
+        `;
+    } else {
+        // Render a hidden input so the math engine calculateStats() doesn't break looking for the ID
+        widgetContainer.innerHTML = `<input type="hidden" id="${widgetInputId}" value="0">`;
+    }
+}
+// ==========================================================================
+// 2. CORE STANDALONE LOGIC HELPERS
+// ==========================================================================
+
+// Universally calculates widget modifiers based on structural JSON metrics
+function getWidgetBonus(heroData, inputLevel) {
+    if (!heroData || heroData.widget_type === "none") {
+        return { type: "none", scope: "none", value: 0 };
+    }
+    
+    const safeIndex = Math.min(10, Math.max(0, inputLevel));
+    const bonusValue = heroData.widget_table[safeIndex] || 0;
+    
+    return {
+        type: heroData.widget_type,     // e.g., "attack", "lethality"
+        scope: heroData.widget_scope,   // e.g., "global", "infantry", "lancer"
+        value: bonusValue
+    };
+}
+
+// ==========================================================================
+// 3. MAIN MATH CALCULATION ENGINE
+// ==========================================================================
 
 function calculateStats() {
     // Get selected heroes from dropdown selections
@@ -19,18 +132,9 @@ function calculateStats() {
     const selectedMmHero = document.getElementById('mmHeroSelect').value;
 
     // Raw input numerical verification with safety bounds
-    const inf1 = Math.min(5, Math.max(1, parseInt(document.getElementById('heroInf1').value) || 5));
-    const inf2 = Math.min(5, Math.max(1, parseInt(document.getElementById('heroInf2').value) || 5));
     const wInf = parseInt(document.getElementById('infWidget').value) || 0;
-
-    const lan1 = Math.min(5, Math.max(1, parseInt(document.getElementById('heroLan1').value) || 5));
-    const lan2 = Math.min(5, Math.max(1, parseInt(document.getElementById('heroLan2').value) || 5));
     const wLan = parseInt(document.getElementById('lanWidget').value) || 0;
-
-    const mm1 = Math.min(5, Math.max(1, parseInt(document.getElementById('heroMM1').value) || 5));
-    const mm2 = Math.min(5, Math.max(1, parseInt(document.getElementById('heroMM2').value) || 5));
-    const mm3 = Math.min(5, Math.max(1, parseInt(document.getElementById('heroMM3').value) || 5));
-    const wMM = parseInt(document.getElementById('MMWidget').value) || 0;
+    const wMM  = parseInt(document.getElementById('MMWidget').value) || 0;
 
     // Environmental and capacity variables
     const pAtt = parseFloat(document.getElementById('petAtt').value) || 0;
@@ -57,60 +161,76 @@ function calculateStats() {
     const rawMmAtt = parseFloat(document.getElementById('baseMmAtt').value) || 0;
     const rawMmLeth = parseFloat(document.getElementById('baseMmLeth').value) || 0;
 
-    // Accumulate global modifiers
-    let mAtt = pAtt + cAtt;
-    let mLeth = pLeth + cLeth;
-    
+    // Initialize clean stat tracking split by source type
+    let stats = {
+        // Hero Skill stats broken down by specific troop target
+        skills: {
+            global:   { attack: 0, lethality: 0 },
+            infantry: { attack: 0, lethality: 0 },
+            lancer:   { attack: 0, lethality: 0 },
+            marksman: { attack: 0, lethality: 0 }
+        },
+        // Flattened Widget tracking for custom isolated math
+        widgets: { 
+            attack: 0, 
+            lethality: 0 
+        }
+    };
 
-    // Inject active hero profile modifications
-    if (selectedLanHero === 'mia') {
-        const lanWidget = Math.min(10, Math.max(0, wLan)); 
-        mAtt += miaWidgetAttTable[lanWidget];
-        console.log("mia widget increase:", miaWidgetAttTable[lanWidget]);
-        console.log("mAtt: ", mAtt);
+    // Scan dynamic skills and assign to stats.skills object
+    function scanHeroSkills(heroData, activeIdsArray) {
+        if (!heroData || !heroData.skills || !activeIdsArray) return;
+        
+        heroData.skills.forEach((skill, index) => {
+            if (!skill || !skill.effects) return;
+            const htmlElement = document.getElementById(activeIdsArray[index]);
+            if (!htmlElement) return;
+
+            const lvl = Math.min(5, Math.max(1, parseInt(htmlElement.value) || 5));
+            
+            skill.effects.forEach(effect => {
+                const bonusValue = effect.table[lvl] || 0;
+                if (stats.skills[effect.scope] && stats.skills[effect.scope][effect.stat] !== undefined) {
+                    stats.skills[effect.scope][effect.stat] += bonusValue;
+                }
+            });
+        });
     }
-    if (selectedMmHero === 'gwen') {
-        const mmWidget = Math.min(10, Math.max(0,wMM));
-        mLeth += gwenWidgetLethTable[mmWidget];
-    }
 
-    // mAtt = mAtt/100;
-    // mLeth = mLeth/100;
+    // Run skill scans across active deployments
+    scanHeroSkills(gameData.infantry[selectedInfHero], activeSkillInputs.infantry);
+    scanHeroSkills(gameData.lancer[selectedLanHero],   activeSkillInputs.lancer);
+    scanHeroSkills(gameData.marksman[selectedMmHero],  activeSkillInputs.marksman);
 
-    // let totalGlobalAtt = tAtt + mAtt + tAtt*mAtt/100;
-    // let totalGlobalLeth = tLeth + mLeth + tLeth*mLeth/100;
+    // Compute widget outputs using JSON structure
+    const widgetResults = [
+        getWidgetBonus(gameData.infantry[selectedInfHero], wInf),
+        getWidgetBonus(gameData.lancer[selectedLanHero], wLan),
+        getWidgetBonus(gameData.marksman[selectedMmHero], wMM)
+    ];
 
-    // if (selectedLanHero === 'mia') {
-    //     totalGlobalAtt += badLuckAttTable[lan1];
-    //     totalGlobalLeth += luckyLethTable[lan2];
+    // Dynamically inject Widget stats directly into the flat tracker
+    widgetResults.forEach(res => {
+        if (res && res.type !== "none" && stats.widgets[res.type] !== undefined) {
+            stats.widgets[res.type] += res.value;
+        }
+    });
 
-    // }
-    // if (selectedInfHero === 'hector') {
-    //     totalGlobalLeth += blitzLethTable[inf2];
-    // }
-    // if (selectedMmHero === 'gwen') {
-    //     totalGlobalAtt += airDomAttTable[mm2];
-    //     totalGlobalLeth += airDomLethTable[mm2] + blastLethTable[mm3];
-    // }
+    // Separate mathematical execution
+    let mAtt  = pAtt  + cAtt  + stats.widgets.attack;
+    let mLeth = pLeth + cLeth + stats.widgets.lethality;
 
+    console.log("stats.widget.attack, lethality: ", stats.widgets.attack,", ", stats.widgets.lethality);
 
-
-    // Combine global account variables with class specific modifiers
+    // Combine global account variables with class specific modifiers (Stats object includes Specific Skills + Specific Widgets)
     let finalInfAttPct = (tAtt + bInfAtt) + mAtt*(1 + (tAtt + bInfAtt)/100);
     let finalInfLethPct = (tLeth + bInfLeth) + mLeth*(1 + (tLeth + bInfLeth)/100);
+    
     let finalLanAttPct = (tAtt + bLanAtt) + mAtt*(1 + (tAtt + bLanAtt)/100);
     let finalLanLethPct = (tLeth + bLanLeth) + mLeth*(1 + (tLeth + bLanLeth)/100);
+    
     let finalMmAttPct = (tAtt + bMmAtt) + mAtt*(1 + (tAtt + bMmAtt)/100);
     let finalMmLethPct = (tLeth + bMmLeth) + mLeth*(1 + (tLeth + bMmLeth)/100);
-
-    // Target tactical assignments
-    // if (selectedInfHero === 'hector') {
-    //     finalInfLethPct += rampLethTable[inf1];
-    //     finalMmLethPct += (rampLethTable[inf1] * 2);
-    // }
-    // if (selectedMmHero === 'gwen') {
-    //     finalInfLethPct += eagleLethTable[mm1];
-    // }
 
     // Convert raw percentage multipliers to final raw math scales
     const trueInfAtt = rawInfAtt * (1 + finalInfAttPct / 100);
@@ -120,107 +240,31 @@ function calculateStats() {
     const trueMmAtt = rawMmAtt * (1 + finalMmAttPct / 100);
     const trueMmLeth = rawMmLeth * (1 + finalMmLethPct / 100);
 
-    // Compute total unit potency indicators
-    // const powerInf = trueInfAtt * trueInfLeth;
-    // const powerLan = trueLanAtt * trueLanLeth;
-    // const powerMm = trueMmAtt * trueMmLeth;
+    const A = trueInfAtt * trueInfLeth * rawInfAtt * rawInfLeth; 
+    const B = trueLanAtt * trueLanLeth * rawLanAtt * rawLanLeth; 
+    const C = trueMmAtt * trueMmLeth * rawMmAtt * rawMmLeth; 
 
-    const A = trueInfAtt*trueInfLeth*rawInfAtt*rawInfLeth; 
-    const B = trueLanAtt*trueLanLeth*rawLanAtt*rawLanLeth; 
-    const C = trueMmAtt*trueMmLeth*rawMmAtt*rawMmLeth; 
+    // Prevent divide-by-zero if stats are completely empty
+    const denominator = (A**2 + B**2 + C**2) || 1; 
 
-    const opInf = SMax*(A**2)/(A**2 + B**2 + C**2);
-    const opLan = SMax*(B**2)/(A**2 + B**2 + C**2);
-    const opMm  = SMax*(C**2)/(A**2 + B**2 + C**2);
-    // console.log("SMax, A, B, C", SMax, A, B, C)
-    // console.log("opInf: ", opInf);
+    const resOpInf = SMax * (A**2) / denominator;
+    const resOpLan = SMax * (B**2) / denominator;
+    const resOpMm  = SMax * (C**2) / denominator;
 
-    const perInf = opInf/SMax*100;
-    const perLan = opLan/SMax*100;
-    const perMm = opMm/SMax*100;
-
+    // Safety check for SMax to prevent NaN percentages
+    const perInf = SMax > 0 ? (resOpInf / SMax * 100) : 0;
+    const perLan = SMax > 0 ? (resOpLan / SMax * 100) : 0;
+    const perMm  = SMax > 0 ? (resOpMm / SMax * 100) : 0;
 
     // Display percentage calculations inside UI layout text items
     document.getElementById('resInfMod').innerHTML = `Att: ${finalInfAttPct.toFixed(1)}% | Leth: ${finalInfLethPct.toFixed(1)}%`;
     document.getElementById('resLanMod').innerHTML = `Att: ${finalLanAttPct.toFixed(1)}% | Leth: ${finalLanLethPct.toFixed(1)}%`;
     document.getElementById('resMmMod').innerHTML  = `Att: ${finalMmAttPct.toFixed(1)}% | Leth: ${finalMmLethPct.toFixed(1)}%`;
 
-   
-    // Push raw numeric scores
-    // document.getElementById('resInfTrue').innerHTML = `Att: ${trueInfAtt.toFixed(1)} | Leth: ${trueInfLeth.toFixed(1)}`;
-    // document.getElementById('resLanTrue').innerHTML = `Att: ${trueLanAtt.toFixed(1)} | Leth: ${trueLanLeth.toFixed(1)}`;
-    // document.getElementById('resMmTrue').innerHTML  = `Att: ${trueMmAtt.toFixed(1)} | Leth: ${trueMmLeth.toFixed(1)}`;
-
-    document.getElementById('opInf').innerHTML = `${Math.round(opInf).toLocaleString()} (${perInf.toFixed(1)}%)`;
-    document.getElementById('opLan').innerHTML = `${Math.round(opLan).toLocaleString()} (${perLan.toFixed(1)}%)`;
-    document.getElementById('opMm').innerHTML =  `${Math.round(opMm).toLocaleString()} (${perMm.toFixed(1)}%)`;
+    document.getElementById('opInf').innerHTML = `${Math.round(resOpInf).toLocaleString()} (${perInf.toFixed(1)}%)`;
+    document.getElementById('opLan').innerHTML = `${Math.round(resOpLan).toLocaleString()} (${perLan.toFixed(1)}%)`;
+    document.getElementById('opMm').innerHTML =  `${Math.round(resOpMm).toLocaleString()} (${perMm.toFixed(1)}%)`;
 
     // Make results panel visible
     document.getElementById('resultsSection').classList.remove('hidden');
 }
-
-// A reusable function to extract the widget value based on JSON rules
-// function getWidgetBonus(heroData, inputLevel) {
-//     if (!heroData || heroData.widget_type === "none") return { type: "none", scope: "none", value: 0 };
-    
-//     // Safety cap the widget input index between 0 and 10
-//     const safeIndex = Math.min(10, Math.max(0, inputLevel));
-//     const bonusValue = heroData.widget_table[safeIndex] || 0;
-    
-//     return {
-//         type: heroData.widget_type,     // "attack" or "lethality"
-//         scope: heroData.widget_scope,   // "global" or "class"
-//         value: bonusValue
-//     };
-// }
-
-// Global variable to hold our hero data once loaded
-// let gameData = {};
-
-// // 1. AUTOMATICALLY RUN ON PAGE LOAD
-// window.addEventListener('DOMContentLoaded', () => {
-//     // Fetch the text data file
-//     fetch('heroes.json')
-//         .then(response => response.json())
-//         .then(data => {
-//             gameData = data; // Save data globally
-//             populateDropdowns(); // Build the HTML selections
-//         })
-//         .catch(error => console.error("Error loading hero JSON data:", error));
-// });
-
-// // 2. DYNAMICALLY BUILD THE DROPDOWNS BASED ON THE JSON FILE
-// function populateDropdowns() {
-//     const infSelect = document.getElementById('infHeroSelect');
-//     const lanSelect = document.getElementById('lanHeroSelect');
-//     const mmSelect = document.getElementById('mmHeroSelect');
-
-//     // Clear out any old hardcoded HTML choices
-//     infSelect.innerHTML = '';
-//     lanSelect.innerHTML = '';
-//     mmSelect.innerHTML = '';
-
-//     // Loop through JSON infantry options and build dropdown elements
-//     Object.keys(gameData.infantry).forEach(key => {
-//         let opt = document.createElement('option');
-//         opt.value = key;
-//         opt.innerText = gameData.infantry[key].name;
-//         infSelect.appendChild(opt);
-//     });
-
-//     // Loop through JSON lancer options
-//     Object.keys(gameData.lancer).forEach(key => {
-//         let opt = document.createElement('option');
-//         opt.value = key;
-//         opt.innerText = gameData.lancer[key].name;
-//         lanSelect.appendChild(opt);
-//     });
-
-//     // Loop through JSON marksman options
-//     Object.keys(gameData.marksman).forEach(key => {
-//         let opt = document.createElement('option');
-//         opt.value = key;
-//         opt.innerText = gameData.marksman[key].name;
-//         mmSelect.appendChild(opt);
-//     });
-// }
