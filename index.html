@@ -12,9 +12,11 @@
     <h1>🐻 Bear Damage Optimizer</h1>
     <p class="subtitle">Maximize your Rewards!</p>
 
+    <!-- Unified Form Element wraps your calculation tracks entirely -->
     <form id="calcForm" onsubmit="event.preventDefault(); calculateStats();">
         <div class="grid">
             
+            <!-- LEFT COLUMN: INPUT MANAGERS -->
             <div>
                 <div class="card form-group">
                     <h2>🛡️ Rally Lead Heroes</h2>
@@ -78,6 +80,7 @@
                 </div>
             </div>
 
+            <!-- RIGHT COLUMN: PROFILE STATS, TROOP SELECTIONS, AND OUTPUT PANEL -->
             <div>
                 <div class="card form-group">
                     <h2>📊 Base Bonus Stats </h2>
@@ -124,65 +127,74 @@
                 </div>
 
                 <div class="card">
-                    <h2>⚔️ Base Troop Stats</h2>
+                    <h2>⚔️ Base Troop Setup</h2>
+                    
+                    <!-- Headers row -->
                     <div class="table-grid" style="margin-bottom: 5px;">
                         <div></div>
-                        <span style="font-size:11px; color:#9ca3af; font-weight:bold;">ATTACK</span>
-                        <span style="font-size:11px; color:#9ca3af; font-weight:bold;">LETHALITY</span>
+                        <span style="font-size:11px; color:#9ca3af; font-weight:bold; text-transform:uppercase;">Level</span>
+                        <span style="font-size:11px; color:#9ca3af; font-weight:bold; text-transform:uppercase;">Fire Crystal</span>
                     </div>
+
+                    <!-- Infantry Row: 3 distinct elements -->
                     <div class="table-grid form-group">
                         <label>Infantry</label>
-                        <input type="number" id="baseInfAtt" value="14">
-                        <input type="number" id="baseInfLeth" value="13">
+                        <select id="lvl-infantry"></select>
+                        <select id="fc-infantry"></select>
                     </div>
+
+                    <!-- Lancer Row -->
                     <div class="table-grid form-group">
                         <label>Lancer</label>
-                        <input type="number" id="baseLanAtt" value="20">
-                        <input type="number" id="baseLanLeth" value="19">
+                        <select id="lvl-lancer"></select>
+                        <select id="fc-lancer"></select>
                     </div>
-                    <div class="table-grid">
+
+                    <!-- Marksman Row -->
+                    <div class="table-grid form-group">
                         <label>Marksman</label>
-                        <input type="number" id="baseMmAtt" value="21">
-                        <input type="number" id="baseMmLeth" value="20">
+                        <select id="lvl-marksman"></select>
+                        <select id="fc-marksman"></select>
                     </div>
                 </div>
-                
-                <button type="submit">Optimal</button> 
-            </div>
 
-        </div>
+                <button type="submit" style="margin-bottom: 20px; width: 100%;">Calculate</button>
+
+                <div id="resultsSection" class="results-box hidden">
+                    <h2>📊 Results </h2>
+                    <table class="stat-table">
+                        <thead>
+                            <tr>
+                               <th>Troop Type</th>
+                               <th style="text-align:center">Battle Report Numbers</th>
+                               <th style="text-align:center">Optimal Troop Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🛡️ Infantry</td>
+                                <td id="resInfMod" style="text-align:center; color:#9ca3af;">-</td>
+                                <td id="opInf" style="text-align:center; font-weight:bold; color:#10b981;">-</td>
+                            </tr>
+                            <tr>
+                                <td>🐎 Lancer</td>
+                                <td id="resLanMod" style="text-align:center; color:#9ca3af;">-</td>
+                                <td id="opLan" style="text-align:center; font-weight:bold; color:#10b981;">-</td>
+                            </tr>
+                            <tr>
+                                <td>🏹 Marksman</td>
+                                <td id="resMmMod" style="text-align:center; color:#9ca3af;">-</td>
+                                <td id="opMm" style="text-align:center; font-weight:bold; color:#10b981;">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- End Right Column -->
+
+        </div> <!-- End Grid Wrapper -->
     </form>
-
-    <div id="resultsSection" class="results-box hidden">
-        <h2>📊 Results </h2>
-        <table class="stat-table">
-            <thead>
-                <tr>
-                    <th>Troop Type</th>
-                    <th style="text-align:center">Battle Report Numbers</th>
-                    <th style="text-align:center">Optimal Troop Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>🛡️ Infantry</td>
-                    <td id="resInfMod" style="text-align:center; color:#9ca3af;">-</td>
-                    <td id="opInf" style="text-align:center; font-weight:bold; color:#10b981;">-</td>
-                </tr>
-                <tr>
-                    <td>🐎 Lancer</td>
-                    <td id="resLanMod" style="text-align:center; color:#9ca3af;">-</td>
-                    <td id="opLan" style="text-align:center; font-weight:bold; color:#10b981;">-</td>
-                </tr>
-                <tr>
-                    <td>🏹 Marksman</td>
-                    <td id="resMmMod" style="text-align:center; color:#9ca3af;">-</td>
-                    <td id="opMm" style="text-align:center; font-weight:bold; color:#10b981;">-</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 </div>
+
     <script src="app.js"></script>
 </body>
 </html>

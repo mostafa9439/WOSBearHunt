@@ -1,0 +1,167 @@
+{
+  "infantry": {
+    "FC0": {
+      "1":  { "attack": 1,  "defense": 4,  "lethality": 1,  "health": 6  },
+      "2":  { "attack": 2,  "defense": 5,  "lethality": 2,  "health": 7  },
+      "3":  { "attack": 3,  "defense": 6,  "lethality": 3,  "health": 8  },
+      "4":  { "attack": 4,  "defense": 7,  "lethality": 4,  "health": 9  },
+      "5":  { "attack": 5,  "defense": 8,  "lethality": 5,  "health": 10 },
+      "6":  { "attack": 6,  "defense": 9,  "lethality": 6,  "health": 11 },
+      "7":  { "attack": 7,  "defense": 10, "lethality": 7,  "health": 12 },
+      "8":  { "attack": 8,  "defense": 11, "lethality": 8,  "health": 13 },
+      "9":  { "attack": 9,  "defense": 12, "lethality": 9,  "health": 14 },
+      "10": { "attack": 10, "defense": 13, "lethality": 10, "health": 15 },
+      "11": { "attack": 12, "defense": 15, "lethality": 12, "health": 17 }
+    },
+    "FC1": {
+      "10": { "attack": 11, "defense": 14, "lethality": 10, "health": 16 },
+      "11": { "attack": 13, "defense": 16, "lethality": 12, "health": 18 }
+    },
+    "FC2": {
+      "10": { "attack": 12, "defense": 16, "lethality": 11, "health": 17 },
+      "11": { "attack": 14, "defense": 17, "lethality": 13, "health": 19 }
+    },
+    "FC3": {
+      "10": { "attack": 13, "defense": 17, "lethality": 12, "health": 18 },
+      "11": { "attack": 15, "defense": 18, "lethality": 14, "health": 20 }
+    },
+    "FC4": {
+      "10": { "attack": 13, "defense": 18, "lethality": 13, "health": 19 },
+      "11": { "attack": 15, "defense": 19, "lethality": 15, "health": 21 }
+    },
+    "FC5": {
+      "10": { "attack": 14, "defense": 20, "lethality": 13, "health": 20 },
+      "11": { "attack": 16, "defense": 22, "lethality": 15, "health": 22 }
+    },
+    "FC6": {
+      "10": { "attack": 14, "defense": 21, "lethality": 13, "health": 21 },
+      "11": { "attack": 17, "defense": 23, "lethality": 16, "health": 23 }
+    },
+    "FC7": {
+      "10": { "attack": 15, "defense": 22, "lethality": 14, "health": 22 },
+      "11": { "attack": 17, "defense": 24, "lethality": 16, "health": 24 }
+    },
+    "FC8": {
+      "10": { "attack": 15, "defense": 23, "lethality": 15, "health": 23 },
+      "11": { "attack": 18, "defense": 25, "lethality": 17, "health": 25 }
+    },
+    "FC9": {
+      "10": { "attack": 16, "defense": 25, "lethality": 15, "health": 24 },
+      "11": { "attack": 18, "defense": 27, "lethality": 17, "health": 26 }
+    },
+    "FC10": {
+      "10": { "attack": 18, "defense": 26, "lethality": 16, "health": 25 },
+      "11": { "attack": 19, "defense": 28, "lethality": 18, "health": 27 }
+    }
+  },
+  "lancer": {
+    "FC0": {
+      "1":  { "attack": 4,  "defense": 2,  "lethality": 5,  "health": 2  },
+      "2":  { "attack": 5,  "defense": 3,  "lethality": 6,  "health": 3  },
+      "3":  { "attack": 6,  "defense": 4,  "lethality": 7,  "health": 4  },
+      "4":  { "attack": 7,  "defense": 5,  "lethality": 8,  "health": 5  },
+      "5":  { "attack": 8,  "defense": 6,  "lethality": 9,  "health": 6  },
+      "6":  { "attack": 9,  "defense": 7,  "lethality": 10, "health": 7  },
+      "7":  { "attack": 10, "defense": 8,  "lethality": 11, "health": 8  },
+      "8":  { "attack": 11, "defense": 9,  "lethality": 12, "health": 9  },
+      "9":  { "attack": 12, "defense": 10, "lethality": 13, "health": 10 },
+      "10": { "attack": 13, "defense": 11, "lethality": 14, "health": 11 },
+      "11": { "attack": 15, "defense": 13, "lethality": 16, "health": 13 }
+    },
+    "FC1": {
+      "10": { "attack": 14, "defense": 12, "lethality": 15, "health": 11 },
+      "11": { "attack": 16, "defense": 14, "lethality": 17, "health": 13 }
+    },
+    "FC2": {
+      "10": { "attack": 16, "defense": 13, "lethality": 16, "health": 12 },
+      "11": { "attack": 18, "defense": 15, "lethality": 18, "health": 14 }
+    },
+    "FC3": {
+      "10": { "attack": 17, "defense": 14, "lethality": 17, "health": 13 },
+      "11": { "attack": 19, "defense": 16, "lethality": 19, "health": 15 }
+    },
+    "FC4": {
+      "10": { "attack": 18, "defense": 14, "lethality": 18, "health": 13 },
+      "11": { "attack": 20, "defense": 16, "lethality": 20, "health": 15 }
+    },
+    "FC5": {
+      "10": { "attack": 20, "defense": 15, "lethality": 19, "health": 14 },
+      "11": { "attack": 22, "defense": 17, "lethality": 21, "health": 16 }
+    },
+    "FC6": {
+      "10": { "attack": 21, "defense": 15, "lethality": 20, "health": 14 },
+      "11": { "attack": 23, "defense": 18, "lethality": 22, "health": 16 }
+    },
+    "FC7": {
+      "10": { "attack": 22, "defense": 16, "lethality": 21, "health": 15 },
+      "11": { "attack": 24, "defense": 18, "lethality": 23, "health": 17 }
+    },
+    "FC8": {
+      "10": { "attack": 23, "defense": 17, "lethality": 22, "health": 15 },
+      "11": { "attack": 25, "defense": 19, "lethality": 24, "health": 17 }
+    },
+    "FC9": {
+      "10": { "attack": 25, "defense": 17, "lethality": 23, "health": 16 },
+      "11": { "attack": 27, "defense": 19, "lethality": 25, "health": 18 }
+    },
+    "FC10": {
+      "10": { "attack": 26, "defense": 19, "lethality": 24, "health": 17 },
+      "11": { "attack": 28, "defense": 21, "lethality": 26, "health": 20 }
+    }
+  },
+  "marksman": {
+    "FC0": {
+      "1":  { "attack": 5,  "defense": 1,  "lethality": 5,  "health": 1  },
+      "2":  { "attack": 6,  "defense": 2,  "lethality": 6,  "health": 2  },
+      "3":  { "attack": 7,  "defense": 3,  "lethality": 7,  "health": 3  },
+      "4":  { "attack": 8,  "defense": 4,  "lethality": 8,  "health": 4  },
+      "5":  { "attack": 9,  "defense": 5,  "lethality": 9,  "health": 5  },
+      "6":  { "attack": 10, "defense": 6,  "lethality": 10, "health": 6  },
+      "7":  { "attack": 11, "defense": 7,  "lethality": 11, "health": 7  },
+      "8":  { "attack": 12, "defense": 8,  "lethality": 12, "health": 8  },
+      "9":  { "attack": 13, "defense": 9,  "lethality": 13, "health": 9  },
+      "10": { "attack": 14, "defense": 10, "lethality": 15, "health": 10 },
+      "11": { "attack": 16, "defense": 12, "lethality": 17, "health": 12 }
+    },
+    "FC1": {
+      "10": { "attack": 15, "defense": 11, "lethality": 16, "health": 11 },
+      "11": { "attack": 17, "defense": 13, "lethality": 18, "health": 13 }
+    },
+    "FC2": {
+      "10": { "attack": 17, "defense": 12, "lethality": 17, "health": 12 },
+      "11": { "attack": 19, "defense": 14, "lethality": 19, "health": 14 }
+    },
+    "FC3": {
+      "10": { "attack": 18, "defense": 13, "lethality": 18, "health": 13 },
+      "11": { "attack": 20, "defense": 15, "lethality": 20, "health": 15 }
+    },
+    "FC4": {
+      "10": { "attack": 19, "defense": 14, "lethality": 19, "health": 13 },
+      "11": { "attack": 21, "defense": 16, "lethality": 21, "health": 15 }
+    },
+    "FC5": {
+      "10": { "attack": 21, "defense": 14, "lethality": 20, "health": 14 },
+      "11": { "attack": 23, "defense": 16, "lethality": 22, "health": 16 }
+    },
+    "FC6": {
+      "10": { "attack": 22, "defense": 15, "lethality": 21, "health": 14 },
+      "11": { "attack": 24, "defense": 17, "lethality": 23, "health": 16 }
+    },
+    "FC7": {
+      "10": { "attack": 23, "defense": 15, "lethality": 22, "health": 15 },
+      "11": { "attack": 25, "defense": 18, "lethality": 24, "health": 17 }
+    },
+    "FC8": {
+      "10": { "attack": 24, "defense": 16, "lethality": 23, "health": 15 },
+      "11": { "attack": 26, "defense": 19, "lethality": 25, "health": 18 }
+    },
+    "FC9": {
+      "10": { "attack": 26, "defense": 17, "lethality": 24, "health": 16 },
+      "11": { "attack": 28, "defense": 19, "lethality": 26, "health": 18 }
+    },
+    "FC10": {
+      "10": { "attack": 27, "defense": 19, "lethality": 25, "health": 17 },
+      "11": { "attack": 30, "defense": 21, "lethality": 27, "health": 20 }
+    }
+  }
+}

@@ -5,6 +5,122 @@ let activeSkillInputs = {
     lancer: [],
     marksman: []
 };
+// Holds the parsed JSON object once fetched from the file system
+let troopDataJson = null; 
+
+function populateTroopDropdowns() {
+    const types = ['infantry', 'lancer', 'marksman'];
+
+    types.forEach(type => {
+        const tierSelect = document.getElementById(`lvl-${type}`);
+        const fcSelect = document.getElementById(`fc-${type}`);
+
+        if (!tierSelect || !fcSelect) return;
+
+        // Clear any existing placeholders
+        tierSelect.innerHTML = "";
+        fcSelect.innerHTML = "";
+
+        // 1. Auto-generate Troop Tiers (T1 to T11)
+        for (let i = 1; i <= 11; i++) {
+            const option = document.createElement("option");
+            option.value = i;
+            option.textContent = `T${i}`;
+            // Default select Tier 10
+            if (i === 10) option.selected = true; 
+            tierSelect.appendChild(option);
+        }
+
+        // 2. Auto-generate Fire Crystal Levels (FC0 to FC10)
+        for (let j = 0; j <= 10; j++) {
+            const option = document.createElement("option");
+            option.value = j;
+            option.textContent = `FC ${j}`;
+            // Default select FC 0
+            if (j === 6) option.selected = true;
+            fcSelect.appendChild(option);
+        }
+        
+        // 3. Add auto-reset rule logic directly to selection tracking
+        tierSelect.addEventListener("change", () => {
+            if (parseInt(tierSelect.value) < 10) {
+                fcSelect.value = "0";
+            }
+        });
+    });
+}
+
+// Fire injection on load initialization window
+document.addEventListener("DOMContentLoaded", populateTroopDropdowns);
+
+
+// Global tracking object to store the extracted unbuffed stats
+let baseTroopStats = {
+    infantry: { attack: 0, defense: 0, lethality: 0, health: 0 },
+    lancer:   { attack: 0, defense: 0, lethality: 0, health: 0 },
+    marksman: { attack: 0, defense: 0, lethality: 0, health: 0 }
+};
+
+function lookupTroopBaseStats(troopJson) {
+    // Ensure the JSON data exists before running
+    if (!troopJson) return;
+
+    const types = ['infantry', 'lancer', 'marksman'];
+    
+    types.forEach(type => {
+        // 1. Get the current selections from the dropdowns
+        const tier = document.getElementById(`lvl-${type}`).value; 
+        let fcKey = "FC" + document.getElementById(`fc-${type}`).value; 
+        
+        // 2. Fallback Rule: T1 through T9 do not exist in FC1-FC10 objects.
+        // If a lower tier is picked, force the lookup to check FC0 instead.
+        if (parseInt(tier) < 10) {
+            fcKey = "FC0";
+        }
+        
+        // 3. Drill down into the JSON structure: troopJson[type][FC_Key][Tier_Number]
+        const finalProfile = troopJson[type] && troopJson[type][fcKey] ? troopJson[type][fcKey][tier] : null;
+        
+        // 4. Save the stats into the global tracker object
+        if (finalProfile) {
+            baseTroopStats[type].attack    = finalProfile.attack || 0;
+            baseTroopStats[type].defense   = finalProfile.defense || 0;
+            baseTroopStats[type].lethality = finalProfile.lethality || 0;
+            baseTroopStats[type].health    = finalProfile.health || 0;
+        }
+    });
+}
+
+function loadTroopDatabase() {
+    fetch('troops.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 1. Save data to the global tracker
+            troopDataJson = data; 
+            
+            // 2. Build out dropdown options dynamically
+            populateTroopDropdowns(); 
+            
+            // 3. Initialize current unbuffed base selections 
+            lookupTroopBaseStats(troopDataJson);
+            
+            console.log("Troops database loaded successfully.");
+        })
+        .catch(error => {
+            console.error("Failed to parse troops.json profile source:", error);
+        });
+}
+
+// Fire the network fetch operation automatically when your app starts up
+document.addEventListener("DOMContentLoaded", loadTroopDatabase);
+
+
+
 
 // ==========================================================================
 // 1. INITIALIZATION & DYNAMIC SCREEN BUILDERS
@@ -154,12 +270,21 @@ function calculateStats() {
     const bMmLeth = parseFloat(document.getElementById('bonusMmLeth').value) || 0;
 
     // Base unit raw profiles
-    const rawInfAtt = parseFloat(document.getElementById('baseInfAtt').value) || 0;
-    const rawInfLeth = parseFloat(document.getElementById('baseInfLeth').value) || 0;
-    const rawLanAtt = parseFloat(document.getElementById('baseLanAtt').value) || 0;
-    const rawLanLeth = parseFloat(document.getElementById('baseLanLeth').value) || 0;
-    const rawMmAtt = parseFloat(document.getElementById('baseMmAtt').value) || 0;
-    const rawMmLeth = parseFloat(document.getElementById('baseMmLeth').value) || 0;
+    // const rawInfAtt = parseFloat(document.getElementById('baseInfAtt').value) || 0;
+    // const rawInfLeth = parseFloat(document.getElementById('baseInfLeth').value) || 0;
+    // const rawLanAtt = parseFloat(document.getElementById('baseLanAtt').value) || 0;
+    // const rawLanLeth = parseFloat(document.getElementById('baseLanLeth').value) || 0;
+    // const rawMmAtt = parseFloat(document.getElementById('baseMmAtt').value) || 0;
+    // const rawMmLeth = parseFloat(document.getElementById('baseMmLeth').value) || 0;
+    // 1. Run the database lookup to update baseTroopStats with current UI selections
+
+    // PASSING THE REAL OBJECT INSTEAD OF A FILE STRING STRIP
+    lookupTroopBaseStats(troopDataJson); 
+
+    // 2. Extract values for each track to use in your formulas
+    const infBase = baseTroopStats.infantry;
+    const lanBase = baseTroopStats.lancer;
+    const mmBase  = baseTroopStats.marksman;
 
     // Initialize clean stat tracking split by source type
     let stats = {
@@ -233,16 +358,16 @@ function calculateStats() {
     let finalMmLethPct = (tLeth + bMmLeth) + mLeth*(1 + (tLeth + bMmLeth)/100);
 
     // Convert raw percentage multipliers to final raw math scales
-    const trueInfAtt = rawInfAtt * (1 + finalInfAttPct / 100);
-    const trueInfLeth = rawInfLeth * (1 + finalInfLethPct / 100);
-    const trueLanAtt = rawLanAtt * (1 + finalLanAttPct / 100);
-    const trueLanLeth = rawLanLeth * (1 + finalLanLethPct / 100);
-    const trueMmAtt = rawMmAtt * (1 + finalMmAttPct / 100);
-    const trueMmLeth = rawMmLeth * (1 + finalMmLethPct / 100);
+    const trueInfAtt = baseTroopStats.infantry.attack * (1 + finalInfAttPct / 100);
+    const trueInfLeth = baseTroopStats.infantry.lethality * (1 + finalInfLethPct / 100);
+    const trueLanAtt = baseTroopStats.lancer.attack * (1 + finalLanAttPct / 100);
+    const trueLanLeth = baseTroopStats.lancer.lethality * (1 + finalLanLethPct / 100);
+    const trueMmAtt = baseTroopStats.marksman.attack * (1 + finalMmAttPct / 100);
+    const trueMmLeth = baseTroopStats.marksman.lethality * (1 + finalMmLethPct / 100);
 
-    const A = trueInfAtt * trueInfLeth * rawInfAtt * rawInfLeth; 
-    const B = trueLanAtt * trueLanLeth * rawLanAtt * rawLanLeth; 
-    const C = trueMmAtt * trueMmLeth * rawMmAtt * rawMmLeth; 
+    const A = trueInfAtt * trueInfLeth * baseTroopStats.infantry.attack * baseTroopStats.infantry.lethality; 
+    const B = trueLanAtt * trueLanLeth * baseTroopStats.lancer.attack * baseTroopStats.lancer.lethality; 
+    const C = trueMmAtt * trueMmLeth * baseTroopStats.marksman.attack * baseTroopStats.marksman.lethality; 
 
     // Prevent divide-by-zero if stats are completely empty
     const denominator = (A**2 + B**2 + C**2) || 1; 
