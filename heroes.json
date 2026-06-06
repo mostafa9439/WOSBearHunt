@@ -2,17 +2,34 @@
   "infantry": {
     "natalia": {
       "name": "Natalia (Gen 1)",
-      "skills": [],
-      "widget_type": "none",
-      "widget_scope": "none",
-      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      "skills": [
+        {
+          "name": "Queen of the Wild",
+          "effects": [{"stat": "attack", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0]}]
+        },
+        {
+          "name": "Call of the Wild",
+          "effects": [{ "stat": "lethality", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0] }]
+        }
+      ],
+      "widget_type": "lethality",
+      "widget_scope": "global",
+      "widget_table": [0, 0, 5.0, 5.0, 7.5, 7.5, 10.0, 10.0, 12.5, 12.5, 15.0]
     },
     "jeronimo": {
       "name": "Jeronimo (Gen 1)",
       "skills": [
         {
-          "name": "Divine Punishment",
-          "effects": [{ "stat": "attack", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0] }]
+          "name": "Battle Manifesto",
+          "effects": [{ "stat": "lethality", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0] }]
+        },
+        {
+          "name": "Swordmentor",
+          "effects": [{"stat": "attack", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0]}]
+        },
+        {
+          "name": "Expert Swordsmanship",
+          "effects": [{"stat": "lethality", "scope": "global", "table": [0, 3, 6, 9, 12, 15]}]
         }
       ],
       "widget_type": "attack",
@@ -21,7 +38,20 @@
     },
     "flint": {
       "name": "Flint (Gen 2)",
-      "skills": [],
+      "skills": [
+        {
+          "name": "Pyromaniac",
+          "effects": [{ "stat": "lethality", "scope": "infantry", "table": [0, 20, 40, 60, 80, 100] }]
+        },
+        {
+          "name": "Burning Resolve",
+          "effects": [{"stat": "attack", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0]}]
+        },
+        {
+          "name": "Immolation",
+          "effects": [{"stat": "lethality", "scope": "global", "table": [0, 3, 6, 9, 12, 15]}]
+        }
+      ],
       "widget_type": "none",
       "widget_scope": "none",
       "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -35,7 +65,20 @@
     },
     "ahmose": {
       "name": "Ahmose (Gen 4)",
-      "skills": [],
+      "skills": [
+        {
+          "name": "Prayer of Flame",
+          "effects": [
+            { "stat": "lethality", "scope": "infantry", "table": [0, 20, 40, 60, 80, 100] }
+          ]
+        },
+        {
+          "name": "Blade of Light",
+          "effects": [
+            { "stat": "lethality", "scope": "infantry", "table": [0, 12, 24, 36, 48, 60] }
+          ]
+        }
+      ],
       "widget_type": "none",
       "widget_scope": "none",
       "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -46,13 +89,31 @@
         {
           "name": "Rampant",
           "effects": [
-            { "stat": "lethality", "scope": "infantry", "table": [0, 4.6, 9.2, 13.8, 18.4, 23.0] },
-            { "stat": "lethality", "scope": "marksman", "table": [0, 9.2, 18.4, 27.6, 36.8, 46.0] }
+            { "stat": "lethality", "scope": "infantry", "table": [0, 455, 569, 683, 796, 910] },
+            { "stat": "lethality", "scope": "marksman", "table": [0, 91, 182, 273, 364, 455] }
           ]
         },
         {
           "name": "Blitz",
-          "effects": [{ "stat": "lethality", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0] }]
+          "effects": [{ "stat": "lethality", "scope": "global", "table": [0, 30, 35, 40, 45, 50] }]
+        }
+      ],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "wuMing": {
+      "name": "Wu Ming (Gen 6)",
+      "skills": [
+        {
+          "name": "Crescent Uplift",
+          "effects": [
+            { "stat": "lethality", "scope": "infantry", "table": [0, 4, 8, 12, 16, 20] }
+          ]
+        },
+        {
+          "name": "Elemental Resonance",
+          "effects": [{ "stat": "lethality", "scope": "global", "table": [0, 5, 10, 15, 20, 25] }]
         }
       ],
       "widget_type": "none",
@@ -63,14 +124,32 @@
   "lancer": {
     "molly": {
       "name": "Molly (Gen 1)",
-      "skills": [],
+      "skills": [
+        {
+          "name": "Ice Dominion",
+          "effects": [{ "stat": "attack", "scope": "global", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0] }]
+        },
+        {
+          "name": "Youthful Rage",
+          "effects": [{ "stat": "lethality", "scope": "lancer", "table": [0, 5.0, 10.0, 15.0, 20.0, 25.0] }]
+        }
+      ],
       "widget_type": "none",
       "widget_scope": "none",
       "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     "philly": {
       "name": "Philly (Gen 2)",
-      "skills": [],
+      "skills": [
+        {
+          "name": "Vigor Tactics",
+          "effects": [{ "stat": "attack", "scope": "global", "table": [0, 3, 6, 9, 12, 15] }]
+        },
+        {
+          "name": "Dosage Boost",
+          "effects": [{ "stat": "attack", "scope": "lancer", "table": [0, 30, 35, 40, 45, 50] }]
+        }
+      ],
       "widget_type": "none",
       "widget_scope": "none",
       "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -93,37 +172,129 @@
     },
     "reina": {
       "name": "Reina (Gen 4)",
-      "skills": [],
-      "widget_type": "none",
-      "widget_scope": "none",
-      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      "skills": [
+        {
+          "name": "Assassin's Instinct",
+          "effects": [{ "stat": "attack", "scope": "global", "table": [0, 10, 15, 20, 25, 30] }]
+        },
+        {
+          "name": "Shadow Blade",
+          "effects": [{ "stat": "attack", "scope": "lancer", "table": [0, 30, 35, 40, 45, 50] }]
+        }
+      ],
+      "widget_type": "attack",
+      "widget_scope": "global",
+      "widget_table": [0, 0, 5.0, 5.0, 7.5, 7.5, 10.0, 10.0, 12.5, 12.5, 15.0]
     },
     "norah": {
       "name": "Norah (Gen 5)",
-      "skills": [],
-      "widget_type": "none",
-      "widget_scope": "none",
-      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    }
-  },
-  "marksman": {
-    "alonso": {
-      "name": "Alonso (Gen 2)",
-      "skills": [],
+      "skills": [
+        {
+          "name": "Combined Arms",
+          "effects": [
+            { "stat": "lethality", "scope": "infantry", "table": [0, 3, 6, 9, 12, 15] },
+            { "stat": "lethality", "scope": "marksman", "table": [0, 3, 6, 9, 12, 15] }
+          ]
+        },
+        {
+          "name": "Sneak Strike",
+          "effects": [{ "stat": "lethality", "scope": "lancer", "table": [0, 4, 8, 12, 16, 20] }]
+        },
+        {
+          "name": "Momentum",
+          "effects": [{ "stat": "lethality", "scope": "global", "table": [0, 5, 10, 15, 20, 25] }]
+        }
+      ],
       "widget_type": "none",
       "widget_scope": "none",
       "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
+    "renee": {
+      "name": "Renee (Gen 6)",
+      "skills": [
+        {
+          "name": "Nightmare Trace",
+          "effects": [{ "stat": "lethality", "scope": "lancer", "table": [0, 20, 40, 60, 80, 100] }]
+        },
+        {
+          "name": "Dreamcatcher",
+          "effects": [{ "stat": "lethality", "scope": "lancer", "table": [0, 30, 60, 90, 120, 150] }]
+        },
+        {
+          "name": "Dreamslice",
+          "effects": [{ "stat": "lethality", "scope": "global", "table": [0, 15, 30, 45, 60, 75] }]
+        }
+      ],
+      "widget_type": "lethality",
+      "widget_scope": "global",
+      "widget_table": [0, 0, 5.0, 5.0, 7.5, 7.5, 10.0, 10.0, 12.5, 12.5, 15.0]
+    }
+  },
+  "marksman": {
+    "bahiti": {
+      "name": "Bahiti (Gen 1)",
+      "skills": [
+        {
+          "name": "Fluorescence",
+          "effects": [{"stat": "lethality", "scope":"global", "table": [0, 5, 10, 15, 20, 25]}]
+        }
+      ],
+      "widget_type": "none",
+      "widget_scope": "global",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "zinman": {
+      "name": "Zinman (Gen 1)",
+      "skills": [
+        {
+          "name": "Positional Battler",
+          "effects": [{"stat": "lethality", "scope":"global", "table": [0, 5, 10, 15, 20, 25]}]
+        }
+      ],
+      "widget_type": "none",
+      "widget_scope": "global",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "alonso": {
+      "name": "Alonso (Gen 2)",
+      "skills": [
+        {
+          "name": "Onslaught",
+          "effects": [{"stat": "lethality", "scope":"global", "table": [0, 4, 8, 12, 16, 20]}]
+        },
+        {
+          "name": "Poison Harpoon",
+          "effects": [{"stat": "attack", "scope":"global", "table": [0, 5, 8, 12, 16, 20]}]
+        }
+      ],
+      "widget_type": "lethality",
+      "widget_scope": "global",
+      "widget_table": [0, 0, 5.0, 5.0, 7.5, 7.5, 10.0, 10.0, 12.5, 12.5, 15.0]
+    },
     "greg": {
       "name": "Greg (Gen 3)",
-      "skills": [],
+      "skills": [
+        {
+          "name": "Sword of Justice",
+          "effects": [{"stat": "lethality", "scope":"global", "table": [0, 4.8, 9.6, 14.4, 19.2, 24]}]
+        }
+      ],
       "widget_type": "none",
       "widget_scope": "none",
       "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     "lynn": {
       "name": "Lynn (Gen 4)",
-      "skills": [],
+      "skills": [
+        {
+          "name": "Song of Lion",
+          "effects": [{"stat": "lethality", "scope":"global", "table": [0, 4, 8, 12, 16, 20]}]
+        },
+        {
+          "name": "Oonai Cadenza",
+          "effects": [{"stat": "lethality", "scope":"global", "table": [0, 1, 2, 3, 4, 5]}]
+        }
+      ],
       "widget_type": "none",
       "widget_scope": "none",
       "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -149,7 +320,19 @@
       ],
       "widget_type": "lethality",
       "widget_scope": "global",
-      "widget_table": [0, 0, 0, 0, 0, 0, 0, 10.0, 10.0, 10.0, 10.0]
+      "widget_table": [0, 0, 5.0, 5.0, 7.5, 7.5, 10.0, 10.0, 12.5, 12.5, 15.0]
+    },
+    "wayne": {
+      "name": "Wayne (Gen 6)",
+      "skills": [
+        {
+          "name": "Thunder Strike",
+          "effects": { "stat": "lethality", "scope": "global", "table":[0, 6.7, 13.3, 20, 26.7, 33.3]}
+        }
+      ],
+      "widget_type": "none",
+      "widget_scope": "none",
+      "widget_table": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     }
   }
 }
